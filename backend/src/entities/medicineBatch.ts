@@ -1,6 +1,7 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, OneToMany, CreateDateColumn, UpdateDateColumn, JoinColumn, Unique } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, OneToMany, CreateDateColumn, UpdateDateColumn, JoinColumn } from "typeorm";
 import { Medicine } from "./medicine.ts";
 import { SaleItem } from "./saleItem.ts";
+import { User } from "./users.ts";
 
 export enum BatchStatus{
   ACTIVE = "ACTIVE",
@@ -8,13 +9,9 @@ export enum BatchStatus{
 }
 
 @Entity("medicine_batches")
-@Unique(["medicine", "batchNumber"])
 export class MedicineBatch{
   @PrimaryGeneratedColumn("uuid")
   id!: string;
-
-  @Column({type: "text"})
-  batchNumber!: string;
 
   @Column({type: 'numeric'})
   purchasePrice!: number;
@@ -49,4 +46,8 @@ export class MedicineBatch{
 
   @OneToMany(() => SaleItem, (item) => item.batch)
   saleItems!: SaleItem[];
+
+  @ManyToOne(() => User, user => user.id)
+  @JoinColumn({name: 'user_id'})
+  users!: User
 }

@@ -5,7 +5,7 @@ import { UserRole } from "../entities/users.ts";
 
 dotenv.config();
 
-interface AuthRequest extends Request{
+export interface AuthRequest extends Request{
     user?: {
         id: string,
         email: string,

@@ -16,6 +16,10 @@ class AuthRepository{
     async save(input: RegisterInput){
         return userRepo.save(input)
     }
+
+    async findOneById(id: any){
+        return userRepo.findOne({where: {id}})
+    }
 }
 
 export default new AuthRepository();

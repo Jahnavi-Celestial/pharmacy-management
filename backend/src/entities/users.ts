@@ -1,6 +1,7 @@
 import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, OneToMany } from "typeorm";
 import { Sale } from "./sales.ts";
 import { Notification } from "./notification.ts";
+import { MedicineBatch } from "./medicineBatch.ts";
 
 export enum UserRole{
   ADMIN = "ADMIN",
@@ -35,4 +36,7 @@ export class User{
 
   @OneToMany(() => Sale, (sale) => sale.salesPerson)
   sales!: Sale[];
+
+  @OneToMany(() => MedicineBatch, medicineBatch => medicineBatch.id)
+  batch!: MedicineBatch[]
 }

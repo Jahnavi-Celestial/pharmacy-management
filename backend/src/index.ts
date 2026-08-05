@@ -5,6 +5,7 @@ import AppDataSource from "./config/db.ts";
 import {router as authRoute} from './routes/auth.routes.ts'
 import {router as medicineRoute} from './routes/medicine.routes.ts'
 import { authCheck } from "./middleware/auth.middleware.ts";
+import {router as inventoryRoute} from './routes/inventory.routes.ts'
 
 dotenv.config();
 
@@ -14,6 +15,7 @@ app.use(express.json())
 
 app.use('/', authCheck, authRoute)
 app.use('/api',  authCheck, medicineRoute)
+app.use('/api',  authCheck, inventoryRoute)
 
 const port = process.env.PORT
 app.listen(port, async () => {
