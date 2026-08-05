@@ -13,7 +13,7 @@ interface AuthRequest extends Request{
     }
 }
 
-const authCheck = async(req: AuthRequest, res: Response, next: NextFunction) => {
+export const authCheck = async(req: AuthRequest, res: Response, next: NextFunction) => {
     try{
     const token: string | undefined = req.headers.authorization?.split(" ")[1]
 
