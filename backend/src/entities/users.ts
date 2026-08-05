@@ -2,6 +2,7 @@ import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateCol
 import { Sale } from "./sales.ts";
 import { Notification } from "./notification.ts";
 import { MedicineBatch } from "./medicineBatch.ts";
+import { Customer } from "./customer.ts";
 
 export enum UserRole{
   ADMIN = "ADMIN",
@@ -39,4 +40,7 @@ export class User{
 
   @OneToMany(() => MedicineBatch, medicineBatch => medicineBatch.id)
   batch!: MedicineBatch[]
+
+  @OneToMany(() => Customer, customer => customer.salesPerson)
+  customers!: Customer[]
 }

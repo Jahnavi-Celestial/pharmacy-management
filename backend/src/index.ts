@@ -6,6 +6,7 @@ import {router as authRoute} from './routes/auth.routes.ts'
 import {router as medicineRoute} from './routes/medicine.routes.ts'
 import { authCheck } from "./middleware/auth.middleware.ts";
 import {router as inventoryRoute} from './routes/inventory.routes.ts'
+import {router as customerRoute} from './routes/customer.routes.ts'
 
 dotenv.config();
 
@@ -14,8 +15,9 @@ const app = express()
 app.use(express.json())
 
 app.use('/', authCheck, authRoute)
-app.use('/api',  authCheck, medicineRoute)
-app.use('/api',  authCheck, inventoryRoute)
+app.use('/api', authCheck, medicineRoute)
+app.use('/api', authCheck, inventoryRoute)
+app.use('/api', authCheck, customerRoute)
 
 const port = process.env.PORT
 app.listen(port, async () => {
