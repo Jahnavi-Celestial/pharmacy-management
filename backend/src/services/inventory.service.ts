@@ -17,6 +17,16 @@ class InventoryService{
             throw new Error('User not found')
         }
 
+        const today = new Date()
+        today.setHours(0,0,0,0)
+
+        const inputDate = new Date(input.expiryDate)
+        inputDate.setHours(0,0,0,0)
+
+        if(inputDate <= today){
+            throw new Error('Expiry date must be greater than today')
+        }
+
         const isExist = await inventoryRepository.findOneByMedicineAndUser({
             medicineId: medicine.id,
             userId: user.id
