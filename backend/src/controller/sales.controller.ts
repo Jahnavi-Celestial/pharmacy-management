@@ -22,7 +22,10 @@ class SalesController{
 
     async getSales(req: AuthRequest, res: Response){
         try{
-            const result = await salesService.getSales()
+            const page = Number(req.query.page) || 1
+            const limit = Number(req.query.limit) || 10
+
+            const result = await salesService.getSales(page, limit)
 
             return res.status(200).json({message: 'Sales fetched successfully', data: result})
         }
@@ -33,8 +36,11 @@ class SalesController{
 
     async getAllSalePersonSales(req: AuthRequest, res: Response){
         try{
+            const page = Number(req.query.page) || 1
+            const limit = Number(req.query.limit) || 10
+
             const id = req.user!.id 
-            const result = await salesService.getAllSales(id)
+            const result = await salesService.getAllSales(id, page, limit)
 
             return res.status(200).json({message: 'Sales fetched successfully', data: result})
         }

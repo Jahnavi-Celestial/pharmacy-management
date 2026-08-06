@@ -49,8 +49,19 @@ class CustomerService{
         return result
     }
 
-    async getCustomers(userId: string){
-        return await customerRepository.findByUserId(userId)
+    async getCustomers(userId: string, page: number, limit: number, search: string){
+        const skip = (page - 1) * limit 
+        const take = limit 
+                
+        const [customer, totalCount] = await customerRepository.findAndCount(userId, skip, take, search)
+                
+        return {
+            data: customer,
+            total: totalCount,
+            totalPages: Math.ceil(totalCount / limit),
+            currentPage: page,
+            limit,
+        }
     }
 
     async getCustomerDetail({id, userId}: {id: any, userId: string}){

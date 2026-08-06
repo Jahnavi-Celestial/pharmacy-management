@@ -27,12 +27,34 @@ class SalesService{
     return { invoiceNumber, totalAmount, sale: savedSale }
   }
 
-  async getSales(){
-    return salesRepository.findAllSales()
+  async getSales(page: number, limit: number){
+    const skip = (page - 1) * limit 
+    const take = limit 
+                    
+    const [sale, totalCount] = await salesRepository.findAndCount(skip, take)
+                    
+    return {
+      data: sale,
+      total: totalCount,
+      totalPages: Math.ceil(totalCount / limit),
+      currentPage: page,
+      limit,
+    }
   }
 
-  async getAllSales(id: any){
-    return salesRepository.findAllSalesForSalePerson(id)
+  async getAllSales(id: any, page: number, limit: number){
+    const skip = (page - 1) * limit 
+    const take = limit 
+                    
+    const [sale, totalCount] = await salesRepository.findAndCountById(id, skip, take)
+       
+    return {
+      data: sale,
+      total: totalCount,
+      totalPages: Math.ceil(totalCount / limit),
+      currentPage: page,
+      limit,
+    }
   }
 
   async getSaleDetail(id: any){

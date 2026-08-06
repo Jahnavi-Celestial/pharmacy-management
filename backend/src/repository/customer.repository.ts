@@ -1,3 +1,4 @@
+import { ILike } from "typeorm"
 import AppDataSource from "../config/db.ts"
 import { Customer } from "../entities/customer.ts"
 
@@ -32,9 +33,14 @@ class CustomerRepository{
         return customerRepo.remove(customer); 
     }
 
-    async findByUserId(userId: string){
-        return customerRepo.find({
-            where: { salesPerson: { id: userId } },
+    async findAndCount(userId: string, skip: number, take: number, search: string){
+        return customerRepo.findAndCount({
+            where: {
+                fullName: ILike(`%${search}%`),
+                salesPerson: { id: userId }
+            },
+            skip,
+            take,
             order: { createdAt: "DESC" }
         })
     }

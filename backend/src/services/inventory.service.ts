@@ -91,8 +91,19 @@ class InventoryService{
         return !!result.affected
     }
 
-    async getInventory(userId: string){
-        return await inventoryRepository.findAllByUserId(userId)
+    async getInventory(userId: string, page: number, limit: number, search: string){
+        const skip = (page - 1) * limit 
+        const take = limit 
+        
+        const [inventory, totalCount] = await inventoryRepository.findAndCount(userId, skip, take, search)
+        
+        return {
+            data: inventory,
+            total: totalCount,
+            totalPages: Math.ceil(totalCount / limit),
+            currentPage: page,
+            limit,
+        }
     }
 
     async getInventoryDetail(id: string | string[] | undefined, userId: string){

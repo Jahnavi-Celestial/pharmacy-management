@@ -1,6 +1,6 @@
 import AppDataSource from '../config/db.ts';
 import { Sale } from '../entities/sales.ts';
-import { MedicineBatch } from '../entities/medicineBatch.ts';
+import { BatchStatus, MedicineBatch } from '../entities/medicineBatch.ts';
 import { Customer } from '../entities/customer.ts';
 import { SaleItem } from '../entities/saleItem.ts';
 import { CreateSaleInput } from '../dto/saleItem.dto.ts';
@@ -17,7 +17,8 @@ class SalesRepository {
       for(const item of saleData.items){
         const batch = await manager.findOne(MedicineBatch, {
           where: { 
-            id: item.medicineId
+            id: item.medicineId,
+            status: BatchStatus.ACTIVE
           },
           relations:{
             medicine: true
@@ -79,17 +80,20 @@ class SalesRepository {
     })
   }
 
-  async findAllSales(){
-    return AppDataSource.getRepository(Sale).find()
+  async findAndCount(skip: number, take: number){
+    return AppDataSource.getRepository(Sale).findAndCount({skip,take})
   }
 
-  async findAllSalesForSalePerson(id: any){
-    return AppDataSource.getRepository(Sale).find({
+  async findAndCountById(id: string, skip: number, take: number){
+    return AppDataSource.getRepository(Sale).findAndCount({
       where: {
         salesPerson: {
           id: id
         }
-      }
+      },
+      skip,
+      take,
+      order: {createdAt: 'DESC'}
     })
   }
 

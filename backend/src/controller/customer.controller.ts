@@ -65,8 +65,12 @@ class CustomerController{
 
     async getCustomers(req: AuthRequest, res: Response){
         try {
+            const page = Number(req.query.page) || 1
+            const limit = Number(req.query.limit) || 10
+            const search = String(req.query.search)
+
             const userId = req.user!.id
-            const result = await customerService.getCustomers(userId)
+            const result = await customerService.getCustomers(userId, page, limit, search)
       
             return res.status(200).json(result)
         } 

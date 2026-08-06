@@ -1,3 +1,4 @@
+import { ILike } from "typeorm";
 import AppDataSource from "../config/db.ts";
 import { MedicineBatch } from "../entities/medicineBatch.ts";
 
@@ -47,16 +48,19 @@ class InventoryRepository{
         return medicineBatchRepo.delete(id)
     }
 
-    async findAllByUserId(userId: string){
-        return medicineBatchRepo.find({
+    async findAndCount(userId: string, skip: number, take: number, search: string){
+        return medicineBatchRepo.findAndCount({
             where: {
+                medicine: {
+                    medicineName: ILike(`%${search}%`)
+                },
                 users: {
                     id: userId
                 }
             },
-            relations: {
-                users: true
-            }
+            relations: {medicine: true, users: true},
+            skip,
+            take,
         })
     }
 }
