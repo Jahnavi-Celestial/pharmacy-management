@@ -24,7 +24,7 @@ function expiryDateCron(){
                 }
             })
 
-            for(let expiredMedicine of allReadyExpired){
+            for(const expiredMedicine of allReadyExpired){
                 expiredMedicine.status = BatchStatus.EXPIRED
 
                 await medicineBatchRepo.save(expiredMedicine);
@@ -39,7 +39,7 @@ function expiryDateCron(){
                 }
             })
 
-            for(let batch of goingToExpired){
+            for(const batch of goingToExpired){
                 if(!batch.users) continue;
 
                 const notification = new Notification()
