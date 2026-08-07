@@ -32,7 +32,7 @@ app.use(
 )
 app.use(express.json())
 
-app.use('/api', authCheck, authRoute)
+app.use('/api', authRoute)
 app.use('/api', authCheck, medicineRoute)
 app.use('/api', authCheck, inventoryRoute)
 app.use('/api', authCheck, customerRoute)
