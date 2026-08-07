@@ -18,7 +18,7 @@ export class SaleItem{
   @JoinColumn({ name: "sale_id" })
   sale!: Sale;
 
-  @ManyToOne(() => MedicineBatch, (batch) => batch.saleItems)
+  @ManyToOne(() => MedicineBatch, (batch) => batch.saleItems, {onDelete: 'SET NULL'})
   @JoinColumn({ name: "batch_id" })
-  batch!: MedicineBatch;
+  batch!: MedicineBatch | null;
 }

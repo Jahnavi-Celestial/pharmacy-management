@@ -32,14 +32,6 @@ export class AddInventoryInput{
 
 export class EditInventoryInput{
     @IsNotEmpty()
-    @IsString()
-    id!: string | string[] | undefined;
-
-    @IsNotEmpty()
-    @IsString()
-    userId!: string;
-
-    @IsNotEmpty()
     @IsNumber()
     @Min(0)
     sellingPrice!: number;

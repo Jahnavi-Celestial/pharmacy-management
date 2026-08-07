@@ -8,6 +8,8 @@ import { useEffect } from "react";
 import { io } from "socket.io-client";
 import { useAuth } from "./shared/hooks/useAuth";
 import MedicineDetail from "./features/Medicine/page/MedicineDetail";
+import InventoryDetail from "./features/Inventory/page/InventoryDetail";
+import Inventory from "./features/Inventory/page/Inventory";
 
 const router = createBrowserRouter([
   {
@@ -23,7 +25,9 @@ const router = createBrowserRouter([
         element: <Layout />,
         children: [
           { path: "/home", element: <Home /> },
-          { path: "/medicineDetail/:id", element: <MedicineDetail />}
+          { path: "/medicineDetail/:id", element: <MedicineDetail />},
+          { path: "/inventory", element: <Inventory />},
+          { path: "/inventory/:id", element: <InventoryDetail />}
         ]
       }
     ]

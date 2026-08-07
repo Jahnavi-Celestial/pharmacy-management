@@ -30,7 +30,7 @@ class InventoryController {
             const userId = req.user!.id
             const { sellingPrice, discountPercent }: EditInventoryInput = req.body
 
-            const result = await inventoryService.editInventory({ id, userId, sellingPrice, discountPercent })
+            const result = await inventoryService.editInventory(id, userId, sellingPrice, discountPercent)
 
             return res.status(200).json({
                 message: 'Record updated successfully',

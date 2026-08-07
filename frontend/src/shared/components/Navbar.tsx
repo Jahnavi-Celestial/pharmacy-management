@@ -15,7 +15,7 @@ import { useAuth } from '../hooks/useAuth';
 import { useNavigate } from 'react-router';
 
 export default function Navbar(){
-  const pages = ['Home', 'SaleHistory']
+  const pages = ['home', 'inventory']
   const {logoutUser, userRole} = useAuth()
   const navigate = useNavigate()
   

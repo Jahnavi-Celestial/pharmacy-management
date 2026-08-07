@@ -39,7 +39,8 @@ class InventoryRepository{
                 }
             },
             relations: {
-                users: true
+                users: true,
+                medicine: true
             }
         })
     }

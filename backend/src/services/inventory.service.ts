@@ -62,9 +62,7 @@ class InventoryService{
         }
     }
 
-    async editInventory(input: EditInventoryInput){
-        const { id, userId, sellingPrice, discountPercent } = input
-
+    async editInventory(id: any, userId: string, sellingPrice: number, discountPercent: number){
         const inventory = await inventoryRepository.findByIdAndUserId(id, userId)
 
         if(!inventory){
