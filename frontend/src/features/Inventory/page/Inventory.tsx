@@ -26,8 +26,6 @@ const Inventory = () => {
 
         const response = await inventoryApi.getAll(page, limit, search)
 
-        console.log(response)
-
         setInventory(response.data.data || [])
         setTotalPages(response.totalPages || 1)
       } 

@@ -5,8 +5,8 @@ class NotificationService{
         return await notificationRepository.findAllNotification(userId)
     }
 
-    async markNotificationAsRead(userId: string){
-        return await notificationRepository.update(userId)
+    async markNotificationAsRead(userId: string, id?: any){
+        return await notificationRepository.update(userId, id)
     }
 }
 

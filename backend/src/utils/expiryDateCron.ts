@@ -1,7 +1,7 @@
 import cron from 'node-cron';
 import AppDataSource from '../config/db.ts';
 import { BatchStatus, MedicineBatch } from '../entities/medicineBatch.ts';
-import { LessThan } from 'typeorm';
+import { LessThan, LessThanOrEqual } from 'typeorm';
 import { io } from '../index.ts';
 import { Notification } from '../entities/notification.ts';
 
@@ -17,9 +17,12 @@ function expiryDateCron(){
             const targetDate = new Date(today)
             targetDate.setDate(today.getDate() + 30)
 
+            const todayISOString = today.toISOString().split('T')[0]
+            const targetDateISOString = targetDate.toISOString().split('T')[0]
+
             const allReadyExpired = await medicineBatchRepo.find({
                 where: {
-                    expiryDate: LessThan(today),
+                    expiryDate: LessThan(todayISOString as any),
                     status: BatchStatus.ACTIVE
                 }
             })
@@ -32,21 +35,34 @@ function expiryDateCron(){
 
             const goingToExpired = await medicineBatchRepo.find({
                 where: {
-                    expiryDate: targetDate
+                    expiryDate: LessThanOrEqual(targetDateISOString as any),
+                    status: BatchStatus.ACTIVE
                 },
                 relations: {
-                    users: true
+                    users: true, 
+                    medicine: true
                 }
             })
 
             for(const batch of goingToExpired){
                 if(!batch.users) continue;
 
+                const alreadyNotified = await notificationRepo.findOne({
+                    where: {
+                        medicineId: batch.medicine.id,
+                        user: { id: batch.users.id },
+                        title: "Medicine Expiring Soon"
+                    }
+                })
+
+                if (alreadyNotified) continue
+
                 const notification = new Notification()
                 notification.title = "Medicine Expiring Soon"
                 notification.message = `Batch of ${batch.medicine.medicineName} is expiring in 30 days!`
                 notification.user = batch.users
                 notification.medicineId = batch.medicine.id
+                notification.batchId = batch.id
                 
                 const savedNotification = await notificationRepo.save(notification)
 
@@ -57,12 +73,13 @@ function expiryDateCron(){
                     message: savedNotification.message,
                     medicineId: savedNotification.medicineId,
                     createdAt: savedNotification.createdAt,
-                    isRead: savedNotification.isRead
+                    isRead: savedNotification.isRead,
+                    batchId: savedNotification.batchId
                 })
             }
         }
         catch(err: any){
-            console.log('Error in running expiry date cron')
+            console.log('Error in running expiry date cron', err.message)
         }
     }
 

@@ -24,4 +24,7 @@ export class Notification{
 
   @Column({ type: 'varchar', nullable: true })
   medicineId!: string;
+
+  @Column({type: "text"})
+  batchId!: string;
 }

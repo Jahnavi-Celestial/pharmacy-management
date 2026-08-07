@@ -16,11 +16,13 @@ class NotificationRepository{
         })
     }
 
-    async update(userId: string){
-        return notificationRepo.update(
-            { user: {id: userId}, isRead: false }, 
-            { isRead: true }
-        )
+    async update(userId: string, notificationId?: string) {
+        if(notificationId){
+            return notificationRepo.update({ id: notificationId, user: {id: userId} }, { isRead: true })
+        } 
+        else{
+            return notificationRepo.update({ user: { id: userId }, isRead: false }, { isRead: true })
+        }
     }
 }
 

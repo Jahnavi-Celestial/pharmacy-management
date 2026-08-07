@@ -1,7 +1,6 @@
 import { Request, Response } from "express";
 import medicineService from "../services/medicine.service.ts";
 
-
 class MedicineController{
     async getMedicines(req: Request, res: Response){
         try{
@@ -26,8 +25,6 @@ class MedicineController{
             const { id } = req.params
 
             const result = await medicineService.getMedicineById(id)
-
-            console.log(result)
 
             return res.status(200).json({
                 message: 'medicine details fetched...',

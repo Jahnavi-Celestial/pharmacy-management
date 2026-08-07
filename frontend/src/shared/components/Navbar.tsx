@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
-import NotificationsIcon from '@mui/icons-material/Notifications';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
@@ -13,8 +12,13 @@ import LocalHospitalIcon from '@mui/icons-material/LocalHospital';
 import { Divider } from '@mui/material';
 import { useAuth } from '../hooks/useAuth';
 import { useNavigate } from 'react-router';
+import NotificationMenu from '../../features/Notification/components/NotificationMenu';
 
-export default function Navbar(){
+interface NavbarProps {
+  socket: any; 
+}
+
+export default function Navbar({ socket }: NavbarProps){
   const pages = ['home', 'inventory']
   const {logoutUser, userRole} = useAuth()
   const navigate = useNavigate()
@@ -60,7 +64,7 @@ export default function Navbar(){
             </Typography>
           ))}
 
-          {userRole == "ADMIN" && <NotificationsIcon />}
+          {userRole === "ADMIN" && <NotificationMenu socketInstance={socket} />}
           
           <Button variant="outlined" color="primary" size="small" sx={{ textTransform: 'none' }} onClick={handleLogout}>
             Logout

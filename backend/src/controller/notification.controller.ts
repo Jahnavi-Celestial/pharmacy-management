@@ -26,6 +26,18 @@ class NotificationController {
             return res.json({error: err.message})
         }
     }
+
+    async markSingleAsRead(req: AuthRequest, res: Response) {
+        try{
+            const { id } = req.params
+            const result = await notificationService.markNotificationAsRead(req.user!.id, id)
+            
+            return res.status(200).json({ message: 'Successfully marked notification as read' })
+        } 
+        catch(err: any){
+            return res.status(500).json({ error: err.message })
+        }
+    }
 }
 
 export default new NotificationController()

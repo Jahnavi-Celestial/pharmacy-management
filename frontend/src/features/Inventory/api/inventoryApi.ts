@@ -18,7 +18,6 @@ export const inventoryApi = {
     const response = await apiClient.get(`/inventory`, {
       params: { page, limit, search },
     })
-    console.log(response.data)
     return response.data
   },
 
