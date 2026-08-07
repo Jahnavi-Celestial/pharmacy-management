@@ -25,8 +25,6 @@ app.use(
         allowedHeaders: [
           "Content-Type",
           "Authorization",
-          "apollo-require-preflight",
-          "x-apollo-operation-name",
         ],
         credentials: true,
         optionsSuccessStatus: 200,
@@ -34,7 +32,7 @@ app.use(
 )
 app.use(express.json())
 
-app.use('/', authCheck, authRoute)
+app.use('/api', authCheck, authRoute)
 app.use('/api', authCheck, medicineRoute)
 app.use('/api', authCheck, inventoryRoute)
 app.use('/api', authCheck, customerRoute)
@@ -49,8 +47,6 @@ export const io = new Server(server, {
         allowedHeaders: [
           "Content-Type",
           "Authorization",
-          "apollo-require-preflight",
-          "x-apollo-operation-name",
         ],
         credentials: true,
         optionsSuccessStatus: 200,

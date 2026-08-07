@@ -9,12 +9,16 @@ export function validateDto(dtoClass: any){
     const errors: ValidationError[] = await validate(dtoInstance)
 
     if(errors.length > 0){
+      const firstError = errors[0];
+      const constraints = firstError?.constraints
+      const errorMessage = constraints ? Object.values(constraints)[0] : 'Validation failed';
+
       const formattedErrors = errors.map((err) => ({
         property: err.property,
         constraints: err.constraints,
       }))
 
-       return res.status(400).json({ errors: formattedErrors })
+      return res.status(400).json({ message: errorMessage })
     }
 
     req.body = dtoInstance
