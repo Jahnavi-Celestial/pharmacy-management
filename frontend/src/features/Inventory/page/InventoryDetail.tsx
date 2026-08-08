@@ -6,7 +6,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import InventoryIcon from "@mui/icons-material/Inventory";
 import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
-import { inventoryApi, type InventoryItem } from "../api/inventoryApi";
+import { inventoryApi, type InventoryItemWithPurchasePrice } from "../api/inventoryApi";
 import UpdateInventoryDialog from "../components/UpdateInventoryDialog";
 import DeleteInventoryDialog from "../components/DeleteInventoryDialog";
 import { useAuth } from "../../../shared/hooks/useAuth";
@@ -16,7 +16,7 @@ export const InventoryDetail = () => {
   const navigate = useNavigate()
   const {userRole} = useAuth()
 
-  const [item, setItem] = useState<InventoryItem | null>(null)
+  const [item, setItem] = useState<InventoryItemWithPurchasePrice | null>(null)
   const [loading, setLoading] = useState<boolean>(true)
   const [error, setError] = useState<string | null>(null)
 
@@ -96,18 +96,23 @@ export const InventoryDetail = () => {
             <Typography variant="body1" sx={{ fontWeight: 500, mt: 0.5 }}>{item?.medicine?.medicineName}</Typography>
           </Grid>
 
-          <Grid size={{ xs: 12, sm: 6 }}>
+          {userRole === 'ADMIN' && <Grid size={{ xs: 12, sm: 6 }}>
             <Typography variant="caption" color="text.disabled" sx={{ fontWeight: 700, textTransform: "uppercase" }}>
                 Base Unit Purchase Value
             </Typography>
             <Typography variant="body1" sx={{ fontWeight: 600, mt: 0.5, color: "primary.main" }}>₹{item.purchasePrice}</Typography>
-          </Grid>
+          </Grid>}
 
           <Grid size={{ xs: 12, sm: 6 }}>
             <Typography variant="caption" color="text.disabled" sx={{ fontWeight: 700, textTransform: "uppercase" }}>
                 Base Unit Selling Value
             </Typography>
-            <Typography variant="body1" sx={{ fontWeight: 600, mt: 0.5, color: "primary.main" }}>₹{item.sellingPrice}</Typography>
+            {userRole == 'ADMIN' && <Typography variant="body1" sx={{ fontWeight: 600, mt: 0.5, color: "primary.main" }}>
+              ₹{item.sellingPrice}
+            </Typography>}
+            {userRole == 'SALESPERSON' && <Typography variant="body1" sx={{ fontWeight: 600, mt: 0.5, color: "primary.main" }}>
+              ₹{(item.sellingPrice > item.purchasePrice) ? item.sellingPrice : item.purchasePrice}
+            </Typography>}
           </Grid>
 
           <Grid size={{ xs: 12, sm: 6 }}>

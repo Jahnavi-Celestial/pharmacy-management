@@ -64,6 +64,31 @@ class InventoryRepository{
             take,
         })
     }
+
+    async findAndCountForSalePerson(skip: number, take: number, search: string){
+        return medicineBatchRepo.findAndCount({
+            where: {
+                medicine: {
+                    medicineName: ILike(`%${search}%`)
+                },
+            },
+            relations: {medicine: true, users: true},
+            skip,
+            take,
+        })
+    }
+
+    async findById(id: any){
+        return medicineBatchRepo.findOne({
+            where: {
+                id,
+            },
+            relations: {
+                users: true,
+                medicine: true
+            }
+        })
+    }
 }
 
 export default new InventoryRepository()

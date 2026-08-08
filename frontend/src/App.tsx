@@ -7,6 +7,10 @@ import Layout from "./shared/components/Layout";
 import MedicineDetail from "./features/Medicine/page/MedicineDetail";
 import InventoryDetail from "./features/Inventory/page/InventoryDetail";
 import Inventory from "./features/Inventory/page/Inventory";
+import Customer from "./features/Customer/page/Customer";
+import CustomerDetail from "./features/Customer/page/CustomerDetail";
+import SaleHistory from "./features/SaleHistory/page/SaleHistory";
+import SaleDetail from "./features/SaleHistory/page/SaleDetail";
 
 const router = createBrowserRouter([
   {
@@ -24,7 +28,11 @@ const router = createBrowserRouter([
           { path: "/home", element: <Home /> },
           { path: "/medicineDetail/:id", element: <MedicineDetail />},
           { path: "/inventory", element: <Inventory />},
-          { path: "/inventory/:id", element: <InventoryDetail />}
+          { path: "/inventory/:id", element: <InventoryDetail />},
+          { path: "/customer", element: <Customer />},
+          { path: "/customer/:id", element: <CustomerDetail />},
+          { path: "/sale", element: <SaleHistory />},
+          { path: "/sale/:id", element: <SaleDetail />},
         ]
       }
     ]

@@ -3,8 +3,8 @@ import userRepository from "../repository/auth.repository.ts";
 import { CreateCustomerInput, EditCustomerInput } from "../dto/customer.dto.ts";
 
 class CustomerService{
-    async createCustomer(input: CreateCustomerInput){
-        const { fullName, email, phone, address, userId } = input
+    async createCustomer(userId: string, input: CreateCustomerInput){
+        const { fullName, email, phone, address} = input
 
         const user = await userRepository.findOneById(userId)
 
@@ -23,8 +23,8 @@ class CustomerService{
         return await customerRepository.save(customer)
     }
 
-    async editCustomer(input: EditCustomerInput){
-        const { id, fullName, email, phone, address, userId } = input
+    async editCustomer(userId: string, input: EditCustomerInput){
+        const { id, fullName, email, phone, address } = input
 
         const isCustomerExist = await customerRepository.findCustomerById(id)
 
@@ -54,7 +54,7 @@ class CustomerService{
         const take = limit 
                 
         const [customer, totalCount] = await customerRepository.findAndCount(userId, skip, take, search)
-                
+
         return {
             data: customer,
             total: totalCount,
@@ -64,8 +64,30 @@ class CustomerService{
         }
     }
 
-    async getCustomerDetail({id, userId}: {id: any, userId: string}){
-        const customer = await customerRepository.findOneByIdAndSalePerson(id, userId)
+    async getAdminAllCustomers(page: number, limit: number, search: string){
+        const skip = (page - 1) * limit
+        const take = limit
+            
+        const [customer, totalCount] = await customerRepository.findAndCountForAdmin(skip, take, search)
+            
+        return {
+            data: customer,
+            total: totalCount,
+            totalPages: Math.ceil(totalCount / limit),
+            currentPage: page,
+            limit,
+        }
+    }
+
+    async getCustomerDetail({id, userId, userRole}: {id: any, userId: string, userRole: string}){
+        let customer;
+
+        if(userRole === "ADMIN"){
+            customer = await customerRepository.findCustomerById(id)
+        } 
+        else{
+            customer = await customerRepository.findOneByIdAndSalePerson(id, userId)
+        }
 
         if(!customer){
             throw new Error("Customer not found")

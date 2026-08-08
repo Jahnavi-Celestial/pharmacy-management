@@ -84,9 +84,8 @@ class InventoryController {
     async getInventoryDetail(req: AuthRequest, res: Response){
         try{
             const { id } = req.params
-            const userId: string = req.user!.id
 
-            const result = await inventoryService.getInventoryDetail(id, userId)
+            const result = await inventoryService.getInventoryDetail(id)
 
             return res.status(200).json({
                 message: 'Fetched data successfully',
@@ -97,6 +96,24 @@ class InventoryController {
             if(err.message === 'Records not found in the inventory'){
                 return res.status(404).json({ message: err.message })
             }
+            return res.status(500).json({ message: "Internal server error", error: err.message })
+        }
+    }
+
+    async getInventoryForSalePerson(req: AuthRequest, res: Response){
+        try{
+            const page = Number(req.query.page) || 1
+            const limit = Number(req.query.limit) || 10
+            const search = String(req.query.search)
+
+            const result = await inventoryService.getInventoryForSalePerson(page, limit, search)
+
+            return res.status(200).json({
+                message: "Inventory records fetched successfully",
+                data: result
+            })
+        } 
+        catch(err: any){
             return res.status(500).json({ message: "Internal server error", error: err.message })
         }
     }

@@ -13,6 +13,8 @@ router.put('/customer/:id', authorizeRoles(UserRole.SALESPERSON), validateDto(Ed
 
 router.delete('/customer/:id', authorizeRoles(UserRole.SALESPERSON), customerController.deleteCustomer)
 
-router.get('/customer', authorizeRoles(UserRole.SALESPERSON, UserRole.ADMIN), customerController.getCustomers)
+router.get('/customer', authorizeRoles(UserRole.SALESPERSON), customerController.getCustomers)
 
-router.get('/customer/:id', authorizeRoles(UserRole.SALESPERSON, UserRole.ADMIN), customerController.getCustomerDetail)
+router.get('/customer/admin', authorizeRoles(UserRole.ADMIN), customerController.getAdminCustomers)
+
+router.get('/customer/:id', authorizeRoles(UserRole.ADMIN, UserRole.SALESPERSON), customerController.getCustomerDetail)

@@ -7,10 +7,13 @@ export interface InventoryItem {
   quantity: number;
   availableQuantity: number;
   expiryDate: string;
-  purchasePrice?: number;
   sellingPrice: number;
   discountPercent: number;
   medicine?: MedicineItem;
+}
+
+export interface InventoryItemWithPurchasePrice extends InventoryItem{
+  purchasePrice: number;
 }
 
 export const inventoryApi = {
@@ -38,6 +41,13 @@ export const inventoryApi = {
 
   delete: async (id: string) => {
     const response = await apiClient.delete(`/inventory/${id}`)
+    return response.data
+  },
+
+  getSalespersonInventory: async (page = 1, limit = 10, search = "") => {
+    const response = await apiClient.get(`/inventorySaleperson`, {
+      params: { page, limit, search },
+    })
     return response.data
   },
 }

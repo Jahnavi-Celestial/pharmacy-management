@@ -12,7 +12,7 @@ class CustomerController{
                 return res.status(400).json({ message: "Missing required fields" })
             }
 
-            const result = await customerService.createCustomer({ fullName, email, phone, address, userId })
+            const result = await customerService.createCustomer(userId, { fullName, email, phone, address })
 
             return res.status(201).json({message: 'customer added successfully', data: result})
         }
@@ -34,7 +34,7 @@ class CustomerController{
                 return res.status(400).json({ message: "Missing required fields" })
             }
 
-            const result = await customerService.editCustomer({ id, fullName, email, phone, address, userId })
+            const result = await customerService.editCustomer(userId, { id, fullName, email, phone, address })
 
             return res.status(201).json({message: 'customer updated successfully', data: result})
         }
@@ -82,12 +82,28 @@ class CustomerController{
         }
     }
 
+    async getAdminCustomers(req: AuthRequest, res: Response){
+        try{
+            const page = Number(req.query.page) || 1
+            const limit = Number(req.query.limit) || 10
+            const search = String(req.query.search || "")
+
+            const result = await customerService.getAdminAllCustomers(page, limit, search)
+  
+            return res.status(200).json(result)
+        } 
+        catch(err: any){
+            return res.status(500).json({ message: "Internal server error", error: err.message })
+        }
+    }
+
     async getCustomerDetail(req: AuthRequest, res: Response){
         try{
             const { id } = req.params
             const userId = req.user!.id
+            const userRole = req.user!.role
 
-            const result = await customerService.getCustomerDetail({ id, userId })
+            const result = await customerService.getCustomerDetail({ id, userId, userRole })
       
             return res.status(200).json({message: 'Details fetched successfully', data: result})
         } 

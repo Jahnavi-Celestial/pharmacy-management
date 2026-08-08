@@ -5,12 +5,14 @@ import SearchIcon from "@mui/icons-material/Search";
 import InventoryIcon from "@mui/icons-material/Inventory";
 import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
 import PercentageIcon from "@mui/icons-material/Percent";
-import { inventoryApi, type InventoryItem } from "../api/inventoryApi";
+import { inventoryApi, type InventoryItemWithPurchasePrice } from "../api/inventoryApi";
+import { useAuth } from "../../../shared/hooks/useAuth";
 
 const Inventory = () => {
   const navigate = useNavigate()
+  const { userRole } = useAuth()
 
-  const [inventory, setInventory] = useState<InventoryItem[]>([])
+  const [inventory, setInventory] = useState<InventoryItemWithPurchasePrice[]>([])
   const [search, setSearch] = useState<string>("")
   const [page, setPage] = useState<number>(1)
   const [limit, setLimit] = useState<number>(10)
@@ -19,12 +21,16 @@ const Inventory = () => {
   const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
+    if(!userRole) return
+
     const fetchInventory = async () => {
       try{
         setLoading(true)
         setError(null)
 
-        const response = await inventoryApi.getAll(page, limit, search)
+        const apiCall = userRole === "SALESPERSON" ? inventoryApi.getSalespersonInventory : inventoryApi.getAll
+
+        const response = await apiCall(page, limit, search)
 
         setInventory(response.data.data || [])
         setTotalPages(response.totalPages || 1)
@@ -42,7 +48,7 @@ const Inventory = () => {
     }, 300)
 
     return () => clearTimeout(delayDebounceFn)
-  }, [page, limit, search])
+  }, [page, limit, search, userRole])
 
   const handleSearchChange = (e: any) => {
     setSearch(e.target.value)
@@ -135,7 +141,7 @@ const Inventory = () => {
 
                         <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", mb: 2 }}>
                           <Typography variant="h5" component="div" sx={{ fontWeight: 700, color: "text.primary" }}>
-                            ₹{item.sellingPrice}
+                            ₹{(item.sellingPrice > item.purchasePrice) ? item.sellingPrice : item.purchasePrice}
                           </Typography>
                           {item.discountPercent > 0 && (
                             <Chip

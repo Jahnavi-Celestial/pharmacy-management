@@ -13,6 +13,8 @@ router.patch('/inventory/:id', authorizeRoles(UserRole.ADMIN), validateDto(EditI
 
 router.delete('/inventory/:id', authorizeRoles(UserRole.ADMIN), inventoryController.deleteFromInventory)
 
-router.get('/inventory', authorizeRoles(UserRole.ADMIN, UserRole.SALESPERSON), inventoryController.getInventory)
+router.get('/inventory', authorizeRoles(UserRole.ADMIN), inventoryController.getInventory)
+
+router.get('/inventorySaleperson', authorizeRoles(UserRole.SALESPERSON), inventoryController.getInventoryForSalePerson)
 
 router.get('/inventory/:id', authorizeRoles(UserRole.ADMIN, UserRole.SALESPERSON), inventoryController.getInventoryDetail)

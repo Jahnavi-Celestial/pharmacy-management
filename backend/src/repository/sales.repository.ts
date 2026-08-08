@@ -81,7 +81,11 @@ class SalesRepository {
   }
 
   async findAndCount(skip: number, take: number){
-    return AppDataSource.getRepository(Sale).findAndCount({skip,take})
+    return AppDataSource.getRepository(Sale).findAndCount({
+      relations: {customer: true, salesPerson: true},
+      skip,
+      take
+    })
   }
 
   async findAndCountById(id: string, skip: number, take: number){
@@ -91,6 +95,7 @@ class SalesRepository {
           id: id
         }
       },
+      relations: {customer: true, salesPerson: true},
       skip,
       take,
       order: {createdAt: 'DESC'}
@@ -98,7 +103,18 @@ class SalesRepository {
   }
 
   async findSaleById(id: any){
-    return AppDataSource.getRepository(Sale).findOne({where: {id: id}})
+    return AppDataSource.getRepository(Sale).findOne({
+      where: {id: id},
+      relations: {
+        customer: true, 
+        salesPerson: true,
+        items: {
+          batch: {
+            medicine: true
+          }
+        }
+      },
+    })
   }
 }
  

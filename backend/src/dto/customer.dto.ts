@@ -15,10 +15,6 @@ export class CreateCustomerInput{
     @IsNotEmpty()
     @IsString()
     address!: string;
-
-    @IsNotEmpty()
-    @IsString()
-    userId!: string;
 }
 
 export class EditCustomerInput{
@@ -40,8 +36,4 @@ export class EditCustomerInput{
     @IsNotEmpty()
     @IsString()
     address!: string;
-
-    @IsNotEmpty()
-    @IsString()
-    userId!: string;
 }

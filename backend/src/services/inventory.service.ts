@@ -1,4 +1,4 @@
-import { AddInventoryInput, EditInventoryInput } from "../dto/inventory.dto.ts";
+import { AddInventoryInput } from "../dto/inventory.dto.ts";
 import inventoryRepository from "../repository/inventory.repository.ts";
 import medicineRepository from "../repository/medicine.repository.ts";
 import userRepository from "../repository/auth.repository.ts";
@@ -104,13 +104,28 @@ class InventoryService{
         }
     }
 
-    async getInventoryDetail(id: string | string[] | undefined, userId: string){
-        const inventory = await inventoryRepository.findByIdAndUserId(id, userId)
+    async getInventoryDetail(id: string | string[] | undefined){
+        const inventory = await inventoryRepository.findById(id)
 
         if(!inventory){
             throw new Error('Records not found in the inventory')
         }
         return inventory
+    }
+
+    async getInventoryForSalePerson(page: number, limit: number, search: string){
+        const skip = (page - 1) * limit 
+        const take = limit 
+        
+        const [inventory, totalCount] = await inventoryRepository.findAndCountForSalePerson(skip, take, search)
+        
+        return {
+            data: inventory,
+            total: totalCount,
+            totalPages: Math.ceil(totalCount / limit),
+            currentPage: page,
+            limit,
+        }
     }
 }
 

@@ -19,7 +19,7 @@ interface NavbarProps {
 }
 
 export default function Navbar({ socket }: NavbarProps){
-  const pages = ['home', 'inventory']
+  const pages = ['Home', 'Inventory', 'Customer', 'Sale']
   const {logoutUser, userRole} = useAuth()
   const navigate = useNavigate()
   
@@ -33,7 +33,7 @@ export default function Navbar({ socket }: NavbarProps){
   const handlePageClick = (pageName: string) => {
     setActivePage(pageName)
     setMobileOpen(false)
-    navigate(`/${pageName}`)
+    navigate(`/${pageName.toLowerCase()}`)
   }
 
   const handleLogout = () => {

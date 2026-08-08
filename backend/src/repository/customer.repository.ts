@@ -44,6 +44,17 @@ class CustomerRepository{
             order: { createdAt: "DESC" }
         })
     }
+
+    async findAndCountForAdmin(skip: number, take: number, search: string){
+        return customerRepo.findAndCount({
+            where: {
+                fullName: ILike(`%${search}%`),
+            },
+            skip,
+            take,
+            order: { createdAt: "DESC" }
+        })
+    }
     
     async findOneByIdAndSalePerson(id: any, userId: string){
         return customerRepo.findOne({
