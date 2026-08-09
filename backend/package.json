@@ -8,7 +8,8 @@
     "dev": "tsx watch ./src/index.ts",
     "build": "tsc",
     "lint": "eslint .",
-    "lint:fix": "eslint . --fix"
+    "lint:fix": "eslint . --fix",
+    "migrate": "node-pg-migrate -m ./migrations --migration-file-language js"
   },
   "keywords": [],
   "author": "",
