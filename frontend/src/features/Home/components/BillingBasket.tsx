@@ -226,6 +226,7 @@ const BillingBasket = ({
                         fullName={newFullName} email={newEmail} phone={newPhone} address={newAddress} loading={registerLoading}
                         onFullNameChange={setNewFullName} onEmailChange={setNewEmail} onPhoneChange={setNewPhone} onAddressChange={setNewAddress}
                         onRegister={handleRegisterCustomer}
+                        error={customerActionError}
                     />
                 )}
             </Box>

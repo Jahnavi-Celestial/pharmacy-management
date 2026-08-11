@@ -3,7 +3,7 @@ import authController from '../controller/auth.controller.ts';
 import { validateDto } from '../middleware/validation.middleware.ts';
 import { LoginInput, RegisterInput } from '../dto/auth.dto.ts';
 
-export const router = Router()
+export const router = Router();
 
 router.post('/register', validateDto(RegisterInput), authController.registerUser);
 

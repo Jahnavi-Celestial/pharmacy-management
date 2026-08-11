@@ -17,7 +17,7 @@ export class RegisterInput{
 
   @IsNotEmpty()
   @IsAlpha()
-  role!: UserRole
+  role!: UserRole;
 }
 
 export class LoginInput{

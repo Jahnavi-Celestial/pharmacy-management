@@ -1,7 +1,7 @@
-import sgMail from "@sendgrid/mail"
+import sgMail from "@sendgrid/mail";
 import "dotenv/config";
 
-sgMail.setApiKey(String(process.env.SENDGRID_API_KEY))
+sgMail.setApiKey(String(process.env.SENDGRID_API_KEY));
 
 export async function sendEmailWithPdf(recipientEmail: string, invoiceNumber: string, pdfBuffer: Buffer){
     try{
@@ -18,14 +18,13 @@ export async function sendEmailWithPdf(recipientEmail: string, invoiceNumber: st
                     disposition: "attachment"
                 },
             ]
-        }
+        };
 
-        const res = await sgMail.send(message)
+        const res = await sgMail.send(message);
 
-        console.log("mail sent")
-        return res
+        return res;
     }
     catch(err:any){
-        console.log(err.message)
+        console.log(err.message);
     }
 }

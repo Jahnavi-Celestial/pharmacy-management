@@ -39,8 +39,8 @@ export class User{
   sales!: Sale[];
 
   @OneToMany(() => MedicineBatch, medicineBatch => medicineBatch.id)
-  batch!: MedicineBatch[]
+  batch!: MedicineBatch[];
 
   @OneToMany(() => Customer, customer => customer.salesPerson)
-  customers!: Customer[]
+  customers!: Customer[];
 }

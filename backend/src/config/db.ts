@@ -7,6 +7,6 @@ const AppDataSource = new DataSource({
     type: "postgres",
     entities: ["./src/entities/*.ts"],
     url: process.env.DB_URL || "",
-})
+});
 
 export default AppDataSource;

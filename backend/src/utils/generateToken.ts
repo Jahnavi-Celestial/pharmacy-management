@@ -16,5 +16,5 @@ export const generateToken = (payload: Payload) => {
         {
             expiresIn: '24h'
         }
-    )
-}
+    );
+};

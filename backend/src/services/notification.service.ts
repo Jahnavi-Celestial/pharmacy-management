@@ -1,13 +1,13 @@
-import notificationRepository from "../repository/notification.repository.ts"
+import notificationRepository from "../repository/notification.repository.ts";
 
 class NotificationService{
     async fetchAllNotification(userId: string){
-        return await notificationRepository.findAllNotification(userId)
+        return await notificationRepository.findAllNotification(userId);
     }
 
     async markNotificationAsRead(userId: string, id?: any){
-        return await notificationRepository.update(userId, id)
+        return await notificationRepository.update(userId, id);
     }
 }
 
-export default new NotificationService()
+export default new NotificationService();

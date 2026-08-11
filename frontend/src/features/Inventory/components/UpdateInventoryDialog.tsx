@@ -10,16 +10,16 @@ interface UpdateInventoryDialogProps {
 }
 
 const UpdateInventoryDialog = ({ open, onClose, item, onSuccess }: UpdateInventoryDialogProps) => {
-  const [sellingPrice, setSellingPrice] = useState<number>(Number(item.sellingPrice) || 0)
-  const [discountPercent, setDiscountPercent] = useState<number>(Number(item.discountPercent) || 0)
+  const [sellingPrice, setSellingPrice] = useState<string>(String(item.sellingPrice) || "")
+  const [discountPercent, setDiscountPercent] = useState<string>(String(item.discountPercent) || "")
 
   const [submitting, setSubmitting] = useState<boolean>(false)
   const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
     if(item){
-      setSellingPrice(Number(item.sellingPrice) || 0)
-      setDiscountPercent(Number(item.discountPercent) || 0)
+      setSellingPrice(String(item.sellingPrice) || "")
+      setDiscountPercent(String(item.discountPercent) || "")
     }
   }, [item])
 
@@ -57,19 +57,24 @@ const UpdateInventoryDialog = ({ open, onClose, item, onSuccess }: UpdateInvento
               <TextField
                 fullWidth
                 label="Selling Price (₹)"
-                type="number"
+                type="text"
                 value={sellingPrice}
-                onChange={(e) => setSellingPrice(Number(e.target.value))}
-                required
+                onChange={(e) => setSellingPrice(e.target.value)}
+                slotProps={{ htmlInput: { min: 1 } }}
+                color={error?.includes('sellingPrice') ? "error" : "primary"}
+                error={error?.includes('sellingPrice')}
               />
             </Grid>
             <Grid size={{ xs: 12 }}>
               <TextField
                 fullWidth
                 label="Discount (%)"
-                type="number"
+                type="text"
                 value={discountPercent}
-                onChange={(e) => setDiscountPercent(Number(e.target.value))}
+                onChange={(e) => setDiscountPercent(e.target.value)}
+                slotProps={{ htmlInput: { min: 1 } }}
+                color={error?.includes('discountPercent') ? "error" : "primary"}
+                error={error?.includes('discountPercent')}
               />
             </Grid>
           </Grid>

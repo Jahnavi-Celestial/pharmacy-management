@@ -26,7 +26,7 @@
     "skipLibCheck": true,
     "allowImportingTsExtensions": true,
     "noEmit": true,
-    "ignoreDeprecations": "6.0"
+    "ignoreDeprecations": "6.0",
   },
   "include": ["./src/**/*"],
   "exclude": ["node_modules"]

@@ -14,5 +14,5 @@ export function invoice(savedSale: Sale, invoiceNumber: string, totalAmount: num
             total: (item.unitPrice * item.quantity) - (item.unitPrice * item.quantity * item.batch.discountPercent / 100)
         })),
         total: totalAmount
-    }
+    };
 }

@@ -1,8 +1,8 @@
-import { IsEmail, IsMobilePhone, IsNotEmpty, IsString } from "class-validator";
+import { IsAlpha, IsEmail, IsMobilePhone, IsNotEmpty, IsString } from "class-validator";
 
 export class CreateCustomerInput{
     @IsNotEmpty()
-    @IsString()
+    @IsAlpha()
     fullName!: string;
 
     @IsNotEmpty()
@@ -20,10 +20,10 @@ export class CreateCustomerInput{
 export class EditCustomerInput{
     @IsNotEmpty()
     @IsString()
-    id!: string | string[] | undefined
+    id!: string | string[] | undefined;
 
     @IsNotEmpty()
-    @IsString()
+    @IsAlpha()
     fullName!: string;
 
     @IsNotEmpty()

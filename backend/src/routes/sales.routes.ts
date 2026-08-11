@@ -5,12 +5,12 @@ import { CreateSaleInput } from "../dto/saleItem.dto.ts";
 import { authorizeRoles } from "../middleware/authRole.middleware.ts";
 import { UserRole } from "../entities/users.ts";
 
-export const router = Router()
+export const router = Router();
 
-router.post('/sale', authorizeRoles(UserRole.SALESPERSON), validateDto(CreateSaleInput), salesController.createSale)
+router.post('/sale', authorizeRoles(UserRole.SALESPERSON), validateDto(CreateSaleInput), salesController.createSale);
 
-router.get('/sale', authorizeRoles(UserRole.ADMIN), salesController.getSales)
+router.get('/sale', authorizeRoles(UserRole.ADMIN), salesController.getSales);
 
-router.get('/sale/salePerson', authorizeRoles(UserRole.SALESPERSON), salesController.getAllSalePersonSales)
+router.get('/sale/salePerson', authorizeRoles(UserRole.SALESPERSON), salesController.getAllSalePersonSales);
 
-router.get('/sale/:id', authorizeRoles(UserRole.ADMIN, UserRole.SALESPERSON), salesController.getSaleDetail)
+router.get('/sale/:id', authorizeRoles(UserRole.ADMIN, UserRole.SALESPERSON), salesController.getSaleDetail);

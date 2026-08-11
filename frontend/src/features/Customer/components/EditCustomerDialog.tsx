@@ -61,16 +61,45 @@ const EditCustomerDialog = ({ open, onClose, customer, onSuccess }: EditCustomer
           {error && <Alert severity="error" sx={{ mb: 3 }}>{error}</Alert>}
           <Grid container spacing={2.5}>
             <Grid size={{ xs: 12, sm: 6 }}>
-              <TextField fullWidth label="Full Name" value={fullName} onChange={(e) => setFullName(e.target.value)} required />
+              <TextField 
+              fullWidth 
+              label="Full Name" 
+              value={fullName} 
+              onChange={(e) => setFullName(e.target.value)}
+              color={error?.includes('fullName') ? "error" : "primary"}
+              error={error?.includes('fullName')}
+              />
             </Grid>
             <Grid size={{ xs: 12, sm: 6 }}>
-              <TextField fullWidth type="email" label="Email Address" value={email} onChange={(e) => setEmail(e.target.value)} required />
+              <TextField 
+              fullWidth 
+              type="text" 
+              label="Email Address" 
+              value={email} 
+              onChange={(e) => setEmail(e.target.value)} 
+              color={error?.includes('email') ? "error" : "primary"}
+              error={error?.includes('email')}
+              />
             </Grid>
             <Grid size={{ xs: 12, sm: 6 }}>
-              <TextField fullWidth label="Phone Number" value={phone} onChange={(e) => setPhone(e.target.value)} />
+              <TextField 
+              fullWidth 
+              label="Phone Number" 
+              value={phone} 
+              onChange={(e) => setPhone(e.target.value)} 
+              color={error?.includes('phone') ? "error" : "primary"}
+              error={error?.includes('phone')}
+              />
             </Grid>
             <Grid size={{ xs: 12, sm: 6 }}>
-              <TextField fullWidth label="Home Address" value={address} onChange={(e) => setAddress(e.target.value)} />
+              <TextField 
+              fullWidth 
+              label="Home Address" 
+              value={address} 
+              onChange={(e) => setAddress(e.target.value)} 
+              color={error?.includes('address') ? "error" : "primary"}
+              error={error?.includes('address')}
+              />
             </Grid>
           </Grid>
         </DialogContent>

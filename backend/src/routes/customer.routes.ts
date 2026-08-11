@@ -5,16 +5,16 @@ import { validateDto } from "../middleware/validation.middleware.ts";
 import { UserRole } from "../entities/users.ts";
 import { authorizeRoles } from "../middleware/authRole.middleware.ts";
 
-export const router = Router()
+export const router = Router();
 
-router.post('/customer', authorizeRoles(UserRole.SALESPERSON), validateDto(CreateCustomerInput), customerController.createCustomer)
+router.post('/customer', authorizeRoles(UserRole.SALESPERSON), validateDto(CreateCustomerInput), customerController.createCustomer);
 
-router.put('/customer/:id', authorizeRoles(UserRole.SALESPERSON), validateDto(EditCustomerInput), customerController.editCustomer)
+router.put('/customer/:id', authorizeRoles(UserRole.SALESPERSON), validateDto(EditCustomerInput), customerController.editCustomer);
 
-router.delete('/customer/:id', authorizeRoles(UserRole.SALESPERSON), customerController.deleteCustomer)
+router.delete('/customer/:id', authorizeRoles(UserRole.SALESPERSON), customerController.deleteCustomer);
 
-router.get('/customer', authorizeRoles(UserRole.SALESPERSON), customerController.getCustomers)
+router.get('/customer', authorizeRoles(UserRole.SALESPERSON), customerController.getCustomers);
 
-router.get('/customer/admin', authorizeRoles(UserRole.ADMIN), customerController.getAdminCustomers)
+router.get('/customer/admin', authorizeRoles(UserRole.ADMIN), customerController.getAdminCustomers);
 
-router.get('/customer/:id', authorizeRoles(UserRole.ADMIN, UserRole.SALESPERSON), customerController.getCustomerDetail)
+router.get('/customer/:id', authorizeRoles(UserRole.ADMIN, UserRole.SALESPERSON), customerController.getCustomerDetail);

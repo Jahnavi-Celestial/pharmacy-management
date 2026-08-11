@@ -10,9 +10,9 @@ interface AddInventoryDialogProps {
 }
 
 const AddInventoryDialog = ({open, onClose, medicineId, onSuccess}: AddInventoryDialogProps) => {
-  const [quantity, setQuantity] = useState<number>(1)
-  const [sellingPrice, setSellingPrice] = useState<number>(0)
-  const [discountPercent, setDiscountPercent] = useState<number>(0)
+  const [quantity, setQuantity] = useState<string>("")
+  const [sellingPrice, setSellingPrice] = useState<string>("")
+  const [discountPercent, setDiscountPercent] = useState<string>("")
   const [expiryDate, setExpiryDate] = useState<string>("")
   
   const [submitting, setSubmitting] = useState<boolean>(false)
@@ -40,7 +40,7 @@ const AddInventoryDialog = ({open, onClose, medicineId, onSuccess}: AddInventory
       handleClose()
     } 
     catch(err: any){
-      setError(err.response?.data?.message || "Failed to add item to inventory.")
+      setError(err.response?.data?.message || "All fields are mandatory.")
     } 
     finally{
       setSubmitting(false)
@@ -48,9 +48,9 @@ const AddInventoryDialog = ({open, onClose, medicineId, onSuccess}: AddInventory
   }
 
   const handleClose = () => {
-    setQuantity(1)
-    setSellingPrice(0)
-    setDiscountPercent(0)
+    setQuantity("")
+    setSellingPrice("")
+    setDiscountPercent("")
     setExpiryDate("")
     setError(null)
     onClose()
@@ -72,12 +72,13 @@ const AddInventoryDialog = ({open, onClose, medicineId, onSuccess}: AddInventory
               <TextField
                 fullWidth
                 label="Quantity"
-                type="number"
+                type="text"
                 variant="outlined"
                 value={quantity}
-                onChange={(e) => setQuantity(Math.max(1, Number(e.target.value)))}
-                required
+                onChange={(e) => setQuantity(e.target.value)}
                 slotProps={{ htmlInput: { min: 1 } }}
+                color={error?.includes('quantity') ? "error" : "primary"}
+                error={error?.includes('quantity')}
               />
             </Grid>
 
@@ -85,11 +86,13 @@ const AddInventoryDialog = ({open, onClose, medicineId, onSuccess}: AddInventory
               <TextField
                 fullWidth
                 label="Selling Price (₹)"
-                type="number"
+                type="text"
                 variant="outlined"
                 value={sellingPrice}
-                onChange={(e) => setSellingPrice(Math.max(0, Number(e.target.value)))}
-                required
+                onChange={(e) => setSellingPrice(e.target.value)}
+                slotProps={{ htmlInput: { min: 0 } }}
+                color={error?.includes('sellingPrice ') ? "error" : "primary"}
+                error={error?.includes('sellingPrice')}
               />
             </Grid>
 
@@ -97,10 +100,13 @@ const AddInventoryDialog = ({open, onClose, medicineId, onSuccess}: AddInventory
               <TextField
                 fullWidth
                 label="Discount (%)"
-                type="number"
+                type="text"
                 variant="outlined"
                 value={discountPercent}
-                onChange={(e) => setDiscountPercent(Math.min(100, Math.max(0, Number(e.target.value))))}
+                onChange={(e) => setDiscountPercent(e.target.value)}
+                slotProps={{ htmlInput: { min: 0 } }}
+                color={error?.includes('discount') ? "error" : "primary"}
+                error={error?.includes('discount')}
               />
             </Grid>
 
@@ -112,7 +118,6 @@ const AddInventoryDialog = ({open, onClose, medicineId, onSuccess}: AddInventory
                 variant="outlined"
                 value={expiryDate}
                 onChange={(e) => setExpiryDate(e.target.value)}
-                required
                 slotProps={{ inputLabel: { shrink: true }, htmlInput: { min: todayStr } }}
               />
             </Grid>

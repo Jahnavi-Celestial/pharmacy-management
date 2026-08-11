@@ -2,7 +2,7 @@ import { ILike } from "typeorm";
 import AppDataSource from "../config/db.ts";
 import { MedicineBatch } from "../entities/medicineBatch.ts";
 
-const medicineBatchRepo = AppDataSource.getRepository(MedicineBatch)
+const medicineBatchRepo = AppDataSource.getRepository(MedicineBatch);
 
 class InventoryRepository{
     async findOneByMedicineAndUser({medicineId, userId}: {medicineId: string, userId: string}){
@@ -19,15 +19,15 @@ class InventoryRepository{
                 medicine: true,
                 users: true
             }
-        })
+        });
     }
 
     create(input: Partial<MedicineBatch>){
-        return medicineBatchRepo.create(input)
+        return medicineBatchRepo.create(input);
     }
 
     async save(input: MedicineBatch){
-        return medicineBatchRepo.save(input)
+        return medicineBatchRepo.save(input);
     }
 
     async findByIdAndUserId(id: any, userId: string){
@@ -42,11 +42,11 @@ class InventoryRepository{
                 users: true,
                 medicine: true
             }
-        })
+        });
     }
 
     async delete(id: any){
-        return medicineBatchRepo.delete(id)
+        return medicineBatchRepo.delete(id);
     }
 
     async findAndCount(userId: string, skip: number, take: number, search: string){
@@ -62,7 +62,7 @@ class InventoryRepository{
             relations: {medicine: true, users: true},
             skip,
             take,
-        })
+        });
     }
 
     async findAndCountForSalePerson(skip: number, take: number, search: string){
@@ -75,7 +75,7 @@ class InventoryRepository{
             relations: {medicine: true, users: true},
             skip,
             take,
-        })
+        });
     }
 
     async findById(id: any){
@@ -87,8 +87,8 @@ class InventoryRepository{
                 users: true,
                 medicine: true
             }
-        })
+        });
     }
 }
 
-export default new InventoryRepository()
+export default new InventoryRepository();

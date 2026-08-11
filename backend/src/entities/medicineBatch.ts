@@ -49,5 +49,5 @@ export class MedicineBatch{
 
   @ManyToOne(() => User, user => user.id)
   @JoinColumn({name: 'user_id'})
-  users!: User
+  users!: User;
 }

@@ -60,21 +60,64 @@ export default function AuthScreen(){
           <Box component="form" onSubmit={handleSubmit} >
             
             {!isLogin && ( 
-                <TextField margin="normal" required fullWidth label="Full Name" value={name} onChange={(e) => setName(e.target.value)} />
+                <TextField 
+                margin="normal" 
+                fullWidth 
+                label="Full Name"
+                id="fullname"
+                value={name} 
+                onChange={(e) => setName(e.target.value)}
+                color={errorMsg.includes('name') ? "error" : "primary"}
+                error={errorMsg.includes('name')}
+                />
             )}
 
-            <TextField margin="normal" required fullWidth label="Email Address" type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
+            <TextField 
+            margin="normal" 
+            fullWidth 
+            label="Email Address" 
+            id="email"
+            type="email" 
+            value={email} 
+            onChange={(e) => setEmail(e.target.value)}
+            color={errorMsg.includes('email') ? "error" : "primary"}
+            error={errorMsg.includes('email')}
+            />
 
-            <TextField margin="normal" required fullWidth label="Password" type="password" value={password} onChange={(e) => setPassword(e.target.value)}/>
+            <TextField 
+            margin="normal" 
+            fullWidth 
+            label="Password" 
+            id="password"
+            type="password" 
+            value={password} 
+            onChange={(e) => setPassword(e.target.value)}
+            color={errorMsg.includes('Password') ? "error" : "primary"}
+            error={errorMsg.includes('Password')}
+            />
 
             {!isLogin && (
-              <TextField select margin="normal" required fullWidth label="Select Role" value={role} onChange={(e) => setRole(e.target.value)}>
+              <TextField 
+              select 
+              margin="normal" 
+              fullWidth 
+              label="Select Role"
+              id="role"
+              value={role} 
+              onChange={(e) => setRole(e.target.value)}
+              >
                 <MenuItem value="ADMIN">Admin</MenuItem>
                 <MenuItem value="SALESPERSON">Saleperson</MenuItem>
               </TextField>
             )}
 
-            <Button type="submit" fullWidth variant="contained" disabled={loading} sx={{ mt: 3, mb: 2, padding: 1.2, fontWeight: "bold" }}>
+            <Button 
+            type="submit" 
+            fullWidth 
+            variant="contained" 
+            disabled={loading} 
+            sx={{ mt: 3, mb: 2, padding: 1.2, fontWeight: "bold" }}
+            >
               {loading ? "Processing..." : isLogin ? "Sign In" : "Sign Up"}
             </Button>
 

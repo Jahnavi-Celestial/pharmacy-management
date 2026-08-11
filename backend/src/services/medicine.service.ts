@@ -1,14 +1,19 @@
-import { GetMedicineInput } from "../dto/medicine.dto.ts";
 import medicineRepository from "../repository/medicine.repository.ts";
+
+interface GetMedicineInput{
+    page: number,
+    limit: number,
+    search: string
+}
 
 class MedicineService{
     async getMedicines(input: GetMedicineInput){
-        const {page, limit, search} = input
+        const {page, limit, search} = input;
 
-        const skip = (page - 1) * limit 
-        const take = limit 
+        const skip = (page - 1) * limit;
+        const take = limit;
 
-        const [medicines, totalCount] = await medicineRepository.findAndCount(skip, take, search)
+        const [medicines, totalCount] = await medicineRepository.findAndCount(skip, take, search);
 
         return {
             data: medicines,
@@ -16,17 +21,17 @@ class MedicineService{
             totalPages: Math.ceil(totalCount / limit),
             currentPage: page,
             limit,
-        }
+        };
     }
 
     async getMedicineById(id: any){
-        const medicine = await medicineRepository.findById(id)
+        const medicine = await medicineRepository.findById(id);
 
         if(!medicine){
-            throw new Error('Medicine not exist')
+            throw new Error('Medicine not exist');
         }
 
-        return medicine
+        return medicine;
     }
 }
 

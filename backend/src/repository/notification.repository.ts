@@ -1,7 +1,7 @@
-import AppDataSource from "../config/db.ts"
-import { Notification } from "../entities/notification.ts"
+import AppDataSource from "../config/db.ts";
+import { Notification } from "../entities/notification.ts";
 
-const notificationRepo = AppDataSource.getRepository(Notification)
+const notificationRepo = AppDataSource.getRepository(Notification);
 
 class NotificationRepository{
     async findAllNotification(userId: string){
@@ -13,17 +13,17 @@ class NotificationRepository{
             },
             relations: { user: true },
             order: { createdAt: "DESC" },
-        })
+        });
     }
 
     async update(userId: string, notificationId?: string) {
         if(notificationId){
-            return notificationRepo.update({ id: notificationId, user: {id: userId} }, { isRead: true })
+            return notificationRepo.update({ id: notificationId, user: {id: userId} }, { isRead: true });
         } 
         else{
-            return notificationRepo.update({ user: { id: userId }, isRead: false }, { isRead: true })
+            return notificationRepo.update({ user: { id: userId }, isRead: false }, { isRead: true });
         }
     }
 }
 
-export default new NotificationRepository()
+export default new NotificationRepository();

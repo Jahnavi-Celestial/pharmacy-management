@@ -9,10 +9,10 @@ import { User } from '../entities/users.ts';
 class SalesRepository {
   async createSaleTransaction(saleData: CreateSaleInput){
     return await AppDataSource.transaction(async (manager) => {
-      let totalAmount = 0
-      const saleItemsToCreate: SaleItem[] = []
+      let totalAmount = 0;
+      const saleItemsToCreate: SaleItem[] = [];
 
-      const medicineNames: string[] = []
+      const medicineNames: string[] = [];
  
       for(const item of saleData.items){
         const batch = await manager.findOne(MedicineBatch, {
@@ -24,33 +24,33 @@ class SalesRepository {
             medicine: true
           },
           order: { expiryDate: 'ASC' },
-        })
+        });
  
         if(!batch || batch.availableQuantity < item.quantity){
-          throw new Error(`Not enough stock available for medicine ${batch?.medicine.medicineName}`)
+          throw new Error(`Not enough stock available for medicine ${batch?.medicine.medicineName}`);
         }
  
-        batch.availableQuantity = batch.availableQuantity - item.quantity
-        await manager.save(batch)
+        batch.availableQuantity = batch.availableQuantity - item.quantity;
+        await manager.save(batch);
  
-        const unitPrice = batch.sellingPrice > batch.purchasePrice ? batch.sellingPrice : batch.purchasePrice
-        totalAmount = totalAmount + ((unitPrice * item.quantity) - (unitPrice * item.quantity * batch.discountPercent / 100))
+        const unitPrice = batch.sellingPrice > batch.purchasePrice ? batch.sellingPrice : batch.purchasePrice;
+        totalAmount = totalAmount + ((unitPrice * item.quantity) - (unitPrice * item.quantity * batch.discountPercent / 100));
  
-        const saleItem = new SaleItem()
-        saleItem.quantity = item.quantity
-        saleItem.unitPrice = unitPrice
-        saleItem.batch = batch
+        const saleItem = new SaleItem();
+        saleItem.quantity = item.quantity;
+        saleItem.unitPrice = unitPrice;
+        saleItem.batch = batch;
         
-        saleItemsToCreate.push(saleItem)
-        medicineNames.push(batch.medicine.medicineName)
+        saleItemsToCreate.push(saleItem);
+        medicineNames.push(batch.medicine.medicineName);
       }
  
-      const invoiceNumber = `INV-${Date.now()}`
+      const invoiceNumber = `INV-${Date.now()}`;
  
-      const sale = new Sale()
-      sale.invoiceNumber = invoiceNumber
-      sale.totalAmount = totalAmount
-      sale.items = saleItemsToCreate
+      const sale = new Sale();
+      sale.invoiceNumber = invoiceNumber;
+      sale.totalAmount = totalAmount;
+      sale.items = saleItemsToCreate;
       
       if(saleData.customerId){
         const customer = await manager.findOneBy(Customer, { 
@@ -58,26 +58,26 @@ class SalesRepository {
           salesPerson: {
             id: saleData.salesPersonId
           } 
-        })
+        });
         if(customer){
-            sale.customer = customer
+            sale.customer = customer;
         }
         else{
-          throw new Error('Customer not found')
+          throw new Error('Customer not found');
         }
       }
 
       if(saleData.customerId){
-        const salePerson = await manager.findOneBy(User, { id: saleData.salesPersonId })
+        const salePerson = await manager.findOneBy(User, { id: saleData.salesPersonId });
         if(salePerson){
-            sale.salesPerson = salePerson
+            sale.salesPerson = salePerson;
         }
       }
  
-      const savedSale = await manager.save(Sale, sale)
+      const savedSale = await manager.save(Sale, sale);
  
-      return { savedSale, invoiceNumber, totalAmount, medicineNames }
-    })
+      return { savedSale, invoiceNumber, totalAmount, medicineNames };
+    });
   }
 
   async findAndCount(skip: number, take: number){
@@ -85,7 +85,7 @@ class SalesRepository {
       relations: {customer: true, salesPerson: true},
       skip,
       take
-    })
+    });
   }
 
   async findAndCountById(id: string, skip: number, take: number){
@@ -99,7 +99,7 @@ class SalesRepository {
       skip,
       take,
       order: {createdAt: 'DESC'}
-    })
+    });
   }
 
   async findSaleById(id: any){
@@ -114,7 +114,7 @@ class SalesRepository {
           }
         }
       },
-    })
+    });
   }
 }
  

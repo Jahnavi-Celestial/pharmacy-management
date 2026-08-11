@@ -5,39 +5,39 @@ import notificationService from "../services/notification.service.ts";
 class NotificationController {
     async fetchAllNotification(req: AuthRequest, res: Response) {
         try{
-            const userId: string = req.user!.id
-            const result = await notificationService.fetchAllNotification(userId)
+            const userId: string = req.user!.id;
+            const result = await notificationService.fetchAllNotification(userId);
 
-            res.status(200).json({data: result})
+            res.status(200).json({data: result});
         }
         catch(err: any){
-            return res.json({error: err.message})
+            return res.json({error: err.message});
         }
     }
 
     async markNotificationAsRead(req: AuthRequest, res: Response){
         try{
-            const userId: string = req.user!.id
-            const result = await notificationService.markNotificationAsRead(userId)
+            const userId: string = req.user!.id;
+            const result = await notificationService.markNotificationAsRead(userId);
 
-            res.status(200).json({message: 'Successfully mark all notification as read'})
+            res.status(200).json({message: 'Successfully mark all notification as read'});
         }
         catch(err: any){
-            return res.json({error: err.message})
+            return res.json({error: err.message});
         }
     }
 
     async markSingleAsRead(req: AuthRequest, res: Response) {
         try{
-            const { id } = req.params
-            const result = await notificationService.markNotificationAsRead(req.user!.id, id)
+            const { id } = req.params;
+            await notificationService.markNotificationAsRead(req.user!.id, id);
             
-            return res.status(200).json({ message: 'Successfully marked notification as read' })
+            return res.status(200).json({ message: 'Successfully marked notification as read' });
         } 
         catch(err: any){
-            return res.status(500).json({ error: err.message })
+            return res.status(500).json({ error: err.message });
         }
     }
 }
 
-export default new NotificationController()
+export default new NotificationController();

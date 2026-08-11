@@ -11,6 +11,11 @@ export class AddInventoryInput{
 
     @IsNotEmpty()
     @IsNumber()
+    @Min(1, { message: "minimum quantity must be atleast 1" })
+    quantity!: number;
+    
+    @IsNotEmpty()
+    @IsNumber()
     @Min(0)
     sellingPrice!: number;
     
@@ -19,11 +24,6 @@ export class AddInventoryInput{
     @Min(0)
     @Max(100)
     discountPercent: number = 0;
-
-    @IsNotEmpty()
-    @IsNumber()
-    @Min(1, { message: "minimum quantity must be atleast 1" })
-    quantity!: number;
 
     @IsNotEmpty()
     @IsDateString()

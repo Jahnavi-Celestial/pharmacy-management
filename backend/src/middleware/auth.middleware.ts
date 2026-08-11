@@ -15,21 +15,21 @@ export interface AuthRequest extends Request{
 
 export const authCheck = async(req: AuthRequest, res: Response, next: NextFunction) => {
     try{
-    const token: string | undefined = req.headers?.authorization?.split(" ")[1]
+    const token: string | undefined = req.headers?.authorization?.split(" ")[1];
 
     if (!token){
       return res.status(401).json({ 
-            message: "Unauthorized: Token is invalid" 
-      })
+            message: "Unauthorized: Token is invalid"
+      });
     }
 
-    const decoded: any = verifyToken(token)
+    const decoded: any = verifyToken(token);
 
-    req.user = decoded
+    req.user = decoded;
 
-    next()
+    next();
     } 
     catch(err: any){
         return { err: err.message };
     }
-}
+};

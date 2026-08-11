@@ -1,10 +1,10 @@
 import PDFDocument from 'pdfkit';
 
 function createPdf(dataCallBack: any, endCallback: any, invoice: any){
-    const doc = new PDFDocument()
+    const doc = new PDFDocument();
 
-    doc.on('data', dataCallBack)
-    doc.on('end', endCallback)
+    doc.on('data', dataCallBack);
+    doc.on('end', endCallback);
 
     doc.fontSize(20)
        .text("ABC Medical Store", {
