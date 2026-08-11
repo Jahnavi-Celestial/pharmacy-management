@@ -23,7 +23,7 @@ class InventoryService{
         const inputDate = new Date(input.expiryDate);
         inputDate.setHours(0,0,0,0);
 
-        if(inputDate <= today){
+        if(inputDate < today){
             throw new Error('Expiry date must be greater than today');
         }
 

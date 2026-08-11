@@ -2,7 +2,6 @@ import cron from 'node-cron';
 import AppDataSource from '../config/db.ts';
 import { BatchStatus, MedicineBatch } from '../entities/medicineBatch.ts';
 import { LessThan, LessThanOrEqual } from 'typeorm';
-import { io } from '../index.ts';
 import { Notification } from '../entities/notification.ts';
 
 function expiryDateCron(){
@@ -54,18 +53,7 @@ function expiryDateCron(){
                 notification.medicineId = batch.medicine.id;
                 notification.batchId = batch.id;
                 
-                const savedNotification = await notificationRepo.save(notification);
-
-                const userId = batch.users.id;
-                io.to(userId).emit("new_notification", {
-                    id: savedNotification.id,
-                    title: savedNotification.title,
-                    message: savedNotification.message,
-                    medicineId: savedNotification.medicineId,
-                    createdAt: savedNotification.createdAt,
-                    isRead: savedNotification.isRead,
-                    batchId: savedNotification.batchId
-                });
+                await notificationRepo.save(notification);
             }
         }
         catch(err: any){

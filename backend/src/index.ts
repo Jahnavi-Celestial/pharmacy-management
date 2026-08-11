@@ -8,8 +8,6 @@ import { authCheck } from "./middleware/auth.middleware.ts";
 import {router as inventoryRoute} from './routes/inventory.routes.ts';
 import {router as customerRoute} from './routes/customer.routes.ts';
 import {router as salesRoute} from './routes/sales.routes.ts';
-import http from 'http';
-import {Server} from 'socket.io';
 import cors from 'cors';
 import expiryDateCron from "./utils/expiryDateCron.ts";
 import {router as notificationRoute} from './routes/notification.routes.ts';
@@ -38,34 +36,8 @@ app.use('/api', authCheck, customerRoute);
 app.use('/api', authCheck, salesRoute);
 app.use('/api', authCheck, notificationRoute);
 
-const server = http.createServer(app);
-export const io = new Server(server, {
-    cors: {
-        origin: process.env.FRONTEND_URL,
-        allowedHeaders: [
-          "Content-Type",
-          "Authorization",
-        ],
-        credentials: true,
-        optionsSuccessStatus: 200,
-    }
-});
-
-io.on('connection', (socket) => {
-    console.log(`User connected: ${socket.id}`);
-
-    socket.on('join_room', (userId) => {
-        socket.join(userId);
-        console.log(`User ${socket.id} joined room: ${userId}`);
-    });
-
-    socket.on('disconnect', () => {
-        console.log(`User disconnected: ${socket.id}`);
-    });
-});
-
 const port = process.env.PORT;
-server.listen(port, async () => {
+app.listen(port, async () => {
     try{
         await AppDataSource.initialize();
         console.log('Connected to database');

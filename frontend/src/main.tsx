@@ -2,14 +2,11 @@ import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import App from './App.tsx'
 import { AuthProvider } from './shared/context/authContext.tsx'
-import { SocketProvider } from './shared/context/socketContext.tsx'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <AuthProvider>
-      <SocketProvider>
         <App />
-      </SocketProvider>
     </AuthProvider>
   </StrictMode>,
 )

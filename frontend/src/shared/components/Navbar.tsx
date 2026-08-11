@@ -14,11 +14,7 @@ import { useAuth } from '../hooks/useAuth';
 import { useNavigate } from 'react-router';
 import NotificationMenu from '../../features/Notification/components/NotificationMenu';
 
-interface NavbarProps {
-  socket: any; 
-}
-
-export default function Navbar({ socket }: NavbarProps){
+export default function Navbar(){
   const pages = ['Home', 'Inventory', 'Customer', 'Sale']
   const {logoutUser, userRole} = useAuth()
   const navigate = useNavigate()
@@ -64,7 +60,7 @@ export default function Navbar({ socket }: NavbarProps){
             </Typography>
           ))}
 
-          {userRole === "ADMIN" && <NotificationMenu socketInstance={socket} />}
+          {userRole === "ADMIN" && <NotificationMenu />}
           
           <Button variant="outlined" color="primary" size="small" sx={{ textTransform: 'none' }} onClick={handleLogout}>
             Logout

@@ -15,11 +15,7 @@ interface NotificationItem {
   batchId: string;
 }
 
-interface NotificationMenuProps {
-  socketInstance: any; 
-}
-
-export const NotificationMenu= ({ socketInstance }: NotificationMenuProps) => {
+export const NotificationMenu= () => {
   const navigate = useNavigate()
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
   const [notifications, setNotifications] = useState<NotificationItem[]>([])
@@ -39,18 +35,14 @@ export const NotificationMenu= ({ socketInstance }: NotificationMenuProps) => {
   useEffect(() => {
     fetchNotifications()
 
-    if(socketInstance){
-      socketInstance.on("new_notification", (newNotif: NotificationItem) => {
-        setNotifications((prev) => [newNotif, ...prev])
-      })
-    }
+    const timer = setInterval(()=>{
+      fetchNotifications()
+    }, 60000)
 
-    return () => {
-      if(socketInstance){
-        socketInstance.off("new_notification")
-      }
+    return ()=>{
+      clearInterval(timer)
     }
-  }, [socketInstance])
+  }, [])
 
   const handleOpen = (e: any) => {
     setAnchorEl(e.currentTarget)
